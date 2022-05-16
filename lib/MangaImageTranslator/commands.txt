@@ -1,0 +1,1 @@
+python translate_demo.py --image c_8_muto.jpg --use-inpainting --verbose --translator=google --target-lang=ENG
