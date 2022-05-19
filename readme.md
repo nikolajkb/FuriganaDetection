@@ -19,7 +19,7 @@ This project aims to detect the location of furigana in images for further proce
 
 - install tesserocr according to installation guidelines: https://github.com/sirfz/tesserocr/tree/310ae9a09ca1105652741539e454219da7c936a1#installation  
 
-- download tessdata: https://github.com/tesseract-ocr/tessdata
+- download tessdata (optional): https://github.com/tesseract-ocr/tessdata 
 
 - create a folder called "data" in lib/ComicTextDetector and add comictextdetector.pt and comictextdetector.pt.onnx to it from: https://github.com/dmMaze/comic-text-detector#readme
 

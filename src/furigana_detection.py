@@ -4,6 +4,8 @@ import detection
 import os
 import json
 import argparse
+from evaluate import evaluate
+
 os.environ['NUMEXPR_MAX_THREADS'] = '16'
 
 
@@ -56,7 +58,7 @@ if __name__ == "__main__":
     parser.add_argument("--labels", help="Path to ground truth labels", default=None)
     parser.add_argument("--eval_predictions", help="Path to predictions for evaluation (labels must also be specified)", default=None)
     parser.add_argument("--validate", help="validate detections using ocr (tessdata must be specified)", action="store_true")
-    parser.add_argument("--tessdata", help="path to tessdata", type=str, default=None)
+    parser.add_argument("--eval", help="run evaluation. If a folder is detected, these results will be evaluated", action="store_true")
 
     args = parser.parse_args()
     cwd = os.getcwd()
@@ -65,12 +67,19 @@ if __name__ == "__main__":
         print("you must specify tessdata location in order to validate detections with OCR")
         exit()
 
+    if args.eval and not args.labels:
+        print("labels must be specified in order to evaluate")
+        exit()
+
     if args.image:
-        furigana = detection.FuriganaDetector(verbose=args.debug, debug_areas=args.debug_area, tessdata=args.tessdata, validate=args.validate, config=args.config).detect(args.image)
+        furigana = detection.FuriganaDetector(verbose=args.debug, debug_areas=args.debug_area, tessdata=args.tessdata,
+                                              validate=args.validate, config=args.config).detect(args.image)
         with open(os.path.join(cwd, args.out), 'w') as file:
-            json.dump(detection_to_json(furigana,[],0),file)
+            json.dump(detection_to_json(furigana, [], 0), file)
     elif args.folder:
         detect_folder(args.folder, labels=args.labels, out=args.out)
+        if args.eval and args.labels:
+            evaluate(args.labels, os.path.join(args.folder, args.out))
     else:
         print("No image or folder specified")
 
