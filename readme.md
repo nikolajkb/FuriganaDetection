@@ -53,3 +53,9 @@ See the --help command for more arguments
           --validate            validate detections using ocr (tessdata must be
                                 specified)
           --tessdata TESSDATA   path to tessdata
+
+
+Alternatively, use the FuriganaDetector class to make detections
+        
+        import detection
+        FuriganaDetector(verbose=True).detect(r"../data/example.jpg") 
