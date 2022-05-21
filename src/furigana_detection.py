@@ -56,7 +56,7 @@ if __name__ == "__main__":
     parser.add_argument("--config", help="Path to a config file with advanced configurations", type=str, default="config.json")
     parser.add_argument("--out", help="name of output file", default="predictions.json")
     parser.add_argument("--labels", help="Path to ground truth labels", default=None)
-    parser.add_argument("--eval_predictions", help="Path to predictions for evaluation (labels must also be specified)", default=None)
+    parser.add_argument("--predictions", help="Path to predictions for evaluation (labels must also be specified)", default=None)
     parser.add_argument("--validate", help="validate detections using ocr (tessdata must be specified)", action="store_true")
     parser.add_argument("--eval", help="run evaluation. If a folder is detected, these results will be evaluated", action="store_true")
 
@@ -80,6 +80,8 @@ if __name__ == "__main__":
         detect_folder(args.folder, labels=args.labels, out=args.out)
         if args.eval and args.labels:
             evaluate(args.labels, os.path.join(args.folder, args.out))
+    elif args.predictions and args.labels and args.eval:
+        evaluate(args.labels, args.predictions)
     else:
-        print("No image or folder specified")
+        print("No image, folder or predictions specified")
 

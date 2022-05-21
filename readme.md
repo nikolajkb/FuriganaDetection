@@ -39,20 +39,22 @@ See the --help command for more arguments
 
         furigana_detection.py --help
         optional arguments:
-          -h, --help            show this help message and exit
-          --debug               Show debug images (result)
-          --debug_area          Show debug images for each individual text area
-          --folder FOLDER       Detect all images in a folder
-          --image IMAGE         An image to detect furigana in
-          --config CONFIG       Path to a config file with advanced configurations
-          --out OUT             name of output file
-          --labels LABELS       Path to ground truth labels
-          --eval_predictions EVAL_PREDICTIONS
+            -h, --help            show this help message and exit
+            --debug               Show debug images (result)
+            --debug_area          Show debug images for each individual text area
+            --folder FOLDER       Detect all images in a folder
+            --image IMAGE         An image to detect furigana in
+            --config CONFIG       Path to a config file with advanced configurations
+            --out OUT             name of output file
+            --labels LABELS       Path to ground truth labels
+            --predictions PREDICTIONS
                                 Path to predictions for evaluation (labels must also
                                 be specified)
-          --validate            validate detections using ocr (tessdata must be
+            --validate            validate detections using ocr (tessdata must be
                                 specified)
-          --tessdata TESSDATA   path to tessdata
+            --eval                run evaluation. If a folder is detected, these results
+                                will be evaluated
+
 
 
 Alternatively, use the FuriganaDetector class to make detections
