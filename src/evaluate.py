@@ -1,9 +1,10 @@
 import json
 from statistics import mean
 import plots
-from geometry import get_n_iou_wh, get_ioa_wh
+from geometry import get_n_iou_wh, get_ioa_wh, to_bbox, to_bbox_n
 
-def evaluate(label_path: str, prediction_path: str, iou_threshold=0.5, ioa_threshold=0.6):
+
+def evaluate(label_path: str, prediction_path: str, iou_threshold=0.5, ioa_threshold=0.1):
     with open(label_path, 'r') as label_file, open(prediction_path, 'r') as prediction_file:
         label_json = json.load(label_file)
         prediction_json = json.load(prediction_file)
@@ -48,12 +49,16 @@ def evaluate(label_path: str, prediction_path: str, iou_threshold=0.5, ioa_thres
                         if iou > iou_threshold:
                             true_positive += 1
                             used_labels.append(ioa_l[0][1])
+                        else:
+                            false_positive += 1
                     elif len(ioa_l) >= 2:
-                        #plots.plot_n_iou(to_bbox(prediction), geometry.to_bbox_n(ioa_rects))
+                        #plots.plot_n_iou(to_bbox(prediction), to_bbox_n(ioa_rects))
                         niou = get_n_iou_wh(prediction,ioa_rects)
                         if niou > iou_threshold:
                             true_positive += len(ioa_rects)
                             used_labels.extend([i[1] for i in ioa_l])
+                        else:
+                            false_positive += 1
                     else:
                         false_positive += 1
 

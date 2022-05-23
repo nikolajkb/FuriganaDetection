@@ -3,7 +3,7 @@ import torch
 import cv2
 from typing import List
 import numpy as np
-from utils import Quadrilateral
+from lib.MangaImageTranslator.utils import Quadrilateral
 from .DBNet_resnet34 import TextDetection as TextDetectionDefault
 from . import imgproc, dbnet_utils, craft_utils
 import einops
@@ -16,7 +16,7 @@ def load_model(cuda: bool, model_name: str = 'default') :
 		raise Exception
 	if model_name == 'default' and DEFAULT_MODEL is None :
 		model = TextDetectionDefault()
-		sd = torch.load('detect.ckpt', map_location = 'cpu')
+		sd = torch.load(r'C:\Users\nikol\PycharmProjects\FuriganaDetection2\lib\MangaImageTranslator\detect.ckpt', map_location = 'cpu')
 		model.load_state_dict(sd['model'] if 'model' in sd else sd)
 		model.eval()
 		if cuda :

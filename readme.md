@@ -35,6 +35,8 @@ the predictions. The --debug command shows the predictions in a window.
 
     furigana_detection.py --image "../data/example.jpg" --debug
 
+Output is given in COCO object detection format
+
 See the --help command for more arguments
 
         furigana_detection.py --help

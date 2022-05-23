@@ -1,6 +1,6 @@
 import nltk
 import os
-from tesserocr import PyTessBaseAPI, PSM
+from tesserocr import PyTessBaseAPI, PSM, OEM
 from PIL import Image
 import cv2 as cv
 from image_utils import draw_rect, show, crop, remove_furigana
@@ -32,6 +32,8 @@ def evaluate_manga109_ocr(parent_folder_path, annotation_folder):
             annotation = annotation.name
             print(book)
             print(annotation)
+            if book != "AkkeraKanjinchou":
+                continue
 
             annotation_path = os.path.join(annotation_folder, annotation)
             folder_path = os.path.join(parent_folder_path, book)
@@ -146,4 +148,4 @@ if __name__ == "__main__":
         # r"C:\Users\nikol\PycharmProjects\FuriganaDetection\data\Manga109_released_2021_12_30\annotations.v2020.12.18")
     evaluate_book(r"C:\Users\nikol\PycharmProjects\FuriganaDetection\data\Manga109_released_2021_12_30\images\AkkeraKanjinchou",
                   r"C:\Users\nikol\PycharmProjects\FuriganaDetection\data\Manga109_released_2021_12_30\annotations\AkkeraKanjinchou.xml", FuriganaDetector(),
-                  gt_path=r"C:\Users\nikol\PycharmProjects\FuriganaDetection\data\Manga109_released_2021_12_30\nofuri")
+                  gt_path=r"C:\Users\nikol\PycharmProjects\FuriganaDetection2\data\Akkera Kanjinchou - no furigana")

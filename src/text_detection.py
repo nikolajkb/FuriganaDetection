@@ -9,6 +9,7 @@ import cv2 as cv
 import numpy as np
 import torch
 from lib.MangaImageTranslator.textblockdetector import dispatch as dispatch_ctd_detection
+from lib.MangaImageTranslator.detection import dispatch as dispatch_detection
 from lib.MangaImageTranslator.textblockdetector.textblock import visualize_textblocks
 import asyncio
 from image_utils import show
@@ -22,7 +23,7 @@ class TextDetectionSimple:
     def get_text(self, img_path):
         img = cv.imread(img_path)
         img_g = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
-        _, threshold = cv.threshold(img_g, 180, 255, cv.THRESH_BINARY_INV)
+        _, threshold = cv.threshold(img_g, 175, 255, cv.THRESH_BINARY_INV)
         return threshold
 
 
@@ -48,6 +49,25 @@ class TextDetectionMIT:
         mask, final_mask, textlines = await dispatch_ctd_detection(img, False, model_path, model_path_onnex)
         #visualize_textblocks(img,textlines)
         return final_mask, mask
+
+
+class TextDetectionMIT_OLD:
+    def get_text(self, img_path):
+        img = cv.imread(img_path)
+        loop = asyncio.get_event_loop()
+        mask = loop.run_until_complete(self._get_text(img))
+        return mask
+
+    async def _get_text(self, img):
+        class DotDict():
+            pass
+        args = DotDict()
+        args.text_threshold = 0.5
+        args.box_threshold = 0.7
+        args.unclip_ratio = 2.3
+        textlines, mask = await dispatch_detection(img, 1536, False, args)
+        #visualize_textblocks(img,textlines)
+        return mask
 
 
 class TextDetectionMTS:

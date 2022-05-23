@@ -5,7 +5,7 @@ import numpy as np
 import os
 from image_utils import show, draw_rect
 from src import geometry
-from text_detection import TextDetectionMIT, TextDetectionCTD, TextDetectionSimple, TextDetectionMTS
+from text_detection import TextDetectionMTS, TextDetectionMIT
 from statistics import mean
 from geometry import rect_distance, bounding_rect
 import ocr
@@ -18,13 +18,13 @@ height = 3
 
 
 class FuriganaDetector:
-    def __init__(self, screen_height=1080, verbose=False, debug_areas=False, tessdata=None, validate=False, config="config.json"):
+    def __init__(self, screen_height=1080, verbose=False, debug_areas=False, tessdata=None, validate=False, config="config.json", text_detector=TextDetectionMIT()):
         self.binary = None
         self.img_w = None
         self.img_h = None
         self.img = None
         self.screen_height = screen_height
-        self.text_detector = TextDetectionMIT()
+        self.text_detector = text_detector
         self.verbose = verbose
         self.debug_areas = debug_areas
         self.tessdata = tessdata
@@ -342,7 +342,7 @@ def bounding_rects(contours):
 def test_detect_folder(path):
     with os.scandir(path) as it:
         for file in it:
-            if file.name.endswith(".jpg") or file.name.endswith(".JPEG"):
+            if (file.name.endswith(".jpg") or file.name.endswith(".JPEG")) and ("jpfor" in file.name or "tobira" in file.name):
                 img_path = os.path.join(path, file.name)
                 FuriganaDetector(verbose=True).detect(img_path)
 
