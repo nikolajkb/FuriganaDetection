@@ -65,5 +65,5 @@ Alternatively, use the FuriganaDetector class to make detections
         FuriganaDetector(verbose=True).detect(r"../data/example.jpg") 
     
 ## Notice - images
-Akkera Kanjinchou © Yuki Kobayashi. Original images were taken from the manga109 dataset http://www.manga109.org
+Akkera Kanjinchou © Yuki Kobayashi. Original images were taken from the manga109 dataset http://www.manga109.org  
 example.jpg is from Tsundere Akuyaku Reijō Rīzerotte to Jikkyō no Endō-kun to Kaisetsu no Kobayashi-san © Suzu Enoshima
