@@ -1,4 +1,4 @@
-## 	Detection of Furigana text in images
+## 	Furigana Detection
 
 Furigana is a part of Japanese written language. 
 Japanese uses both a phonetic (representing sounds, called Hiragana) alphabet and a logographic (representing meaning, called Kanji) alphabet.
