@@ -12,8 +12,7 @@ Furigana does not change the meaning of the text and can thus be disregarded by 
 For example, current Optical Character Reading systems do not handle furigana well. 
 The furigana is mistaken as regular text and inserted into the output, which significantly reduces the quality of the result. 
 
-This project aims to detect the location of furigana in images for further processing.
-
+This project aims to detect the location of furigana in images.
 ## installation
 - install CUDA according to tensorflow requirements: https://www.tensorflow.org/install/gpu
 
