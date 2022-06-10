@@ -12,8 +12,13 @@ Furigana does not change the meaning of the text and can thus be disregarded by 
 For example, current Optical Character Reading systems do not handle furigana well. 
 The furigana is mistaken as regular text and inserted into the output, which significantly reduces the quality of the result. 
 
-This project aims to detect the location of furigana in images.
-## installation
+This project aims to detect the location of furigana in images for better processing of Japanese text in images.
+
+## Paper
+For more information about the system, see the thesis paper.  
+https://github.com/nikolajkb/FuriganaDetection/blob/main/thesis%20nikolaj%20bjerregaard%202022.pdf
+
+## Installation
 - install CUDA according to tensorflow requirements: https://www.tensorflow.org/install/gpu
 
 - install tesserocr according to installation guidelines: https://github.com/sirfz/tesserocr/tree/310ae9a09ca1105652741539e454219da7c936a1#installation  
@@ -28,7 +33,7 @@ This project aims to detect the location of furigana in images.
 
 - install packages from requirements.txt 
 
-## running
+## Running
 The program can be run from the commandline, the following command detects furigana in an image and creates a file with
 the predictions. The --debug command shows the predictions in a window.
 
