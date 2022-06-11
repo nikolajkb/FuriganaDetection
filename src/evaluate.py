@@ -2,9 +2,10 @@ import json
 from statistics import mean
 import plots
 from geometry import get_n_iou_wh, get_ioa_wh, to_bbox, to_bbox_n
+from more_itertools import powerset
 
 
-def evaluate(label_path: str, prediction_path: str, iou_threshold=0.5, ioa_threshold=0.1):
+def evaluate(label_path: str, prediction_path: str, iou_threshold=0.5):
     with open(label_path, 'r') as label_file, open(prediction_path, 'r') as prediction_file:
         label_json = json.load(label_file)
         prediction_json = json.load(prediction_file)
@@ -41,24 +42,29 @@ def evaluate(label_path: str, prediction_path: str, iou_threshold=0.5, ioa_thres
             else:
                 for prediction in predictions:
                     ioas = [[get_ioa_wh(label,prediction),i] for i,label in enumerate(labels)]
-                    ioa_l = list(filter(lambda ioa: ioa[0] > ioa_threshold and ioa[1] not in used_labels, ioas))
-                    ioa_rects = [labels[i[1]] for i in ioa_l]
-                    if len(ioa_l) == 1:
-                        #plots.plot_iou(to_bbox(prediction), to_bbox(ioa_rects[0]))
-                        iou = get_n_iou_wh(prediction, [ioa_rects[0]])
-                        if iou > iou_threshold:
-                            true_positive += 1
-                            used_labels.append(ioa_l[0][1])
-                        else:
-                            false_positive += 1
-                    elif len(ioa_l) >= 2:
-                        #plots.plot_n_iou(to_bbox(prediction), to_bbox_n(ioa_rects))
-                        niou = get_n_iou_wh(prediction,ioa_rects)
-                        if niou > iou_threshold:
-                            true_positive += len(ioa_rects)
-                            used_labels.extend([i[1] for i in ioa_l])
-                        else:
-                            false_positive += 1
+                    ioa_l = list(filter(lambda ioa: ioa[0] > 0.01 and ioa[1] not in used_labels, ioas))
+                    all_combinations = powerset(ioa_l)
+                    max_tp = 0
+                    best_combi = None
+                    for combi in all_combinations:
+                        ioa_rects = [labels[i[1]] for i in combi]
+                        if len(combi) == 1 and max_tp == 0:
+                            # plots.plot_iou(to_bbox(prediction), to_bbox(ioa_rects[0]))
+                            iou = get_n_iou_wh(prediction, [ioa_rects[0]])
+                            if iou > iou_threshold:
+                                max_tp = 1
+                                best_combi = combi
+
+                        elif len(combi) >= 2 and max_tp < len(combi):
+                            # plots.plot_n_iou(to_bbox(prediction), to_bbox_n(ioa_rects))
+                            niou = get_n_iou_wh(prediction, ioa_rects)
+                            if niou > iou_threshold:
+                                max_tp = len(ioa_rects)
+                                best_combi = combi
+
+                    if best_combi is not None:
+                        true_positive += max_tp
+                        used_labels.extend([i[1] for i in best_combi])
                     else:
                         false_positive += 1
 
