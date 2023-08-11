@@ -1,7 +1,7 @@
 ## 	Furigana Detection
 
 Furigana is a part of Japanese written language. 
-Japanese uses both a phonetic (representing sounds, called Hiragana) alphabet and a logographic (representing meaning, called Kanji) alphabet.
+Japanese uses both a phonetic (representing sounds, called Hiragana) script and a logographic (representing meaning, called Kanji) script.
 In written Japanese, the two are mixed to form sentences.
 For Kanji, since the characters represent meaning, the reader may not always know how it is pronounced. 
 Therefore, writers may sometimes add notes next to kanji to indicate their pronunciation, these types of notes are called Furigana. 
